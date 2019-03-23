@@ -48,16 +48,17 @@ Write-Progress -Activity "Validating Dependencies" -Completed
 Write-Progress -Activity "Ensure in `$HOME directory"
 set-location $env:USERPROFILE
 
-# Set variable for WSL terminal
-$version = "0.8.8"
-$wslTerminal = "wsl-terminal-$version.7z"
-
 Write-Progress -Activity "Get bits for WSL terminal"
+$file = "wsl-terminal.7z"
+$latest = "https://api.github.com/repos/goreliu/wsl-terminal/releases/latest"
+
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri "https://github.com/goreliu/wsl-terminal/releases/download/v$version/$wslTerminal" -OutFile $env:USERPROFILE\$wslTerminal
+# Borrowed from @MarkTiedemann and @f3l3gy, adapted for the Wsl-Terminal repo from goreliu
+$latest_url = (Invoke-WebRequest -Uri $latest -UseBasicParsing | ConvertFrom-Json)[0].assets.browser_download_url | Where-Object { $_ -match '\.7z' -and $_ -notmatch 'tabbed' }
+Invoke-WebRequest $latest_url -OutFile $env:USERPROFILE\$file
 
 Write-Progress -Activity "Extract WSL terminal and remove after complete"
-Get-Item $wslTerminal | ForEach-Object {
+Get-Item $file | ForEach-Object {
     $7z_Arguments = @(
         'x'							## eXtract files with full paths
         '-y'						## assume Yes on all queries
@@ -69,6 +70,14 @@ Get-Item $wslTerminal | ForEach-Object {
         Remove-Item -Path $_.FullName -Force
     }
 }
+
+# WSL doesn't honor the chsh command. This function manually updates the wsl-terminal.conf to move from bash to zsh
+Write-Progress -Activity "Update wsl-terminal.conf"
+$Path = "$env:USERPROFILE\wsl-terminal\etc\wsl-terminal.conf"
+(Get-Content $Path) |
+    ForEach-Object { $_ -replace '^shell=/bin/bash', ';shell=/bin/bash' `
+        -replace '^;shell=/bin/zsh', 'shell=/bin/zsh'
+    } | Set-Content $Path
 
 Write-Progress -Activity "Ensure symlink exists"
 $symlink = "$env:USERPROFILE\Desktop\wsl.lnk"
