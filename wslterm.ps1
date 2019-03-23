@@ -41,7 +41,17 @@ function Get-WslTerminalLatest {
 	}
 }
 
+# WSL doesn't honor the chsh command. This function manually updates the wsl-terminal.conf to move from bash to zsh
+function Update-WslConfigFile {
+	$Path = "$env:USERPROFILE\wsl-terminal\etc\wsl-terminal.conf"
+	(Get-Content $Path) |
+		ForEach-Object { $_ -replace '^shell=/bin/bash', ';shell=/bin/bash' `
+			-replace '^;shell=/bin/zsh', 'shell=/bin/zsh'
+		} | Set-Content $Path
+}
+
 Get-WslTerminalLatest
+Update-WslConfigFile
 
 # Add shortcut to desktop
 $TargetFile = "$env:USERPROFILE\wsl-terminal\open-wsl.exe"
