@@ -99,14 +99,13 @@ Get-ChildItem -Path $FontPath | ForEach-Object {
         
         # Install font
         $FontFolder.CopyHere($FontPath,0x10)
-
-        # Delete temporary copy of font
-        Remove-Item $FontPath
     }
     else {
         Write-Output 'Font already installed'
     }
 }
+# Delete temporary copy of font
+Remove-Item $FontPath
 
 # Update minttyrc file with the font and theme to use
 $MinttyrcPath = "$env:USERPROFILE\wsl-terminal\etc\minttyrc"   
