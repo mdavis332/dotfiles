@@ -1,15 +1,15 @@
-# jldeen does dotfiles - forked from holman's repo
+# dotfiles - forked from jldeen's repo which was forked from holman's repo
 
 ### macOS Configuration
 Run the following to configure macOS from scratch...
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/jldeen/dotfiles/mac/configure.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/mdavis332/dotfiles/mac/configure.sh)"
 ```
 
 ### WSL Configuration
 Run the following to configure WSL from scratch...
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/jldeen/dotfiles/wsl/configure.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/configure.sh)"
 ```
 
 ## install
@@ -18,7 +18,7 @@ There are two "master" branches here: WSL and MacOS; there are two "dev" branche
 Run this if you wish to run from clone:
 
 ```sh
-git clone https://github.com/jldeen/dotfiles.git ~/.dotfiles
+git clone https://github.com/mdavis332/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 script/bootstrap
 ```
@@ -59,7 +59,7 @@ symlinked without extension into `$HOME` when you run `script/bootstrap`.
 
 A lot of stuff. Seriously, a lot of stuff. Check them out in the file browser
 above and see what components may mesh up with you.
-[Fork holman's](https://github.com/holman/dotfiles/fork) or [Fork mine](htps://github.com/jldeen/dotfiles/fork), remove what you don't
+[Fork jldeen's](https://github.com/jldeen/dotfiles/fork) or [Fork mine](https://github.com/mdavis332/dotfiles/fork), remove what you don't
 use, and build on what you do use.
 
 ## components
