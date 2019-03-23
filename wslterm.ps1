@@ -1,5 +1,5 @@
 ﻿# Function to extract our 7z download
-Function Expand-Archive([string]$Path, [string]$Destination, [switch]$RemoveSource) {
+function Expand-Archive([string]$Path, [string]$Destination, [switch]$RemoveSource) {
 	$7z_Application = "C:\Program Files\7-Zip\7z.exe"
 	$7z_Arguments = @(
 		'x'							## eXtract files with full paths
@@ -13,19 +13,35 @@ Function Expand-Archive([string]$Path, [string]$Destination, [switch]$RemoveSour
 	}
 }
 
-# Ensure in $HOME directory
-cd $env:USERPROFILE
+# Function to download latest release of Wsl-Terminal
+# Borrowed from @MarkTiedemann and @f3l3gy, adapted for the Wsl-Terminal repo from goreliu
+function Get-WslTerminalLatest {
+	# Download latest dotnet/codeformatter release from github
+	
+	$latest = "https://api.github.com/repos/goreliu/wsl-terminal/releases/latest"
 
-# Set variable for WSL terminal
-$wslTerminal = "wsl-terminal-0.8.3.7z"
+	Write-Host Determining latest release
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+	$latest_url = (Invoke-WebRequest -Uri $latest -UseBasicParsing | ConvertFrom-Json)[0].assets.browser_download_url | Where-Object { $_ -match '\.7z' -and $_ -notmatch 'tabbed' }
 
-# Get bits for WSL terminal
-wget https://github.com/goreliu/wsl-terminal/releases/download/v0.8.3/wsl-terminal-0.8.3.7z -OutFile $env:USERPROFILE\$wslTerminal
+	$file = "wsl-terminal.7z"
+	
+	# Ensure in $HOME directory
+	cd $env:USERPROFILE
 
-# Extract WSL terminal and remove after complete
-Get-ChildItem $wslTerminal -Filter *.7z | ForEach-Object {
-	Expand-Archive -Path $_.FullName -Destination $env:USERPROFILE -RemoveSource
+	Write-Host Dowloading latest release
+
+	# Do the actual downloading
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+	Invoke-WebRequest $latest_url -OutFile $env:USERPROFILE\$file
+
+	# Extract WSL terminal and remove after complete
+	Get-ChildItem $file -Filter *.7z | ForEach-Object {
+		Expand-Archive -Path $_.FullName -Destination $env:USERPROFILE -RemoveSource
+	}
 }
+
+Get-WslTerminalLatest
 
 # Add shortcut to desktop
 $TargetFile = "$env:USERPROFILE\wsl-terminal\open-wsl.exe"
