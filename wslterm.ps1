@@ -103,6 +103,9 @@ Get-ChildItem -Path $FontPath | ForEach-Object {
         # Delete temporary copy of font
         Remove-Item $FontPath
     }
+    else {
+        Write-Output 'Font already installed'
+    }
 }
 
 # Update minttyrc file with the font and theme to use
@@ -118,3 +121,6 @@ $symlink = "$env:USERPROFILE\Desktop\wsl.lnk"
 If (-not (Test-Path -Path $symlink)) {
     New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\Desktop\" -Name "wsl.lnk" -Value "$env:USERPROFILE\wsl-terminal\open-wsl.exe" 
 }
+
+$BashParams = @('-c', '"$(curl -fsSL https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/configure.sh)"')
+& bash $BashParams
