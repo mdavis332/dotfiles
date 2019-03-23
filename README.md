@@ -1,15 +1,15 @@
 # dotfiles - forked from jldeen's repo which was forked from holman's repo
 
+### WSL Configuration for the Emulator, Oh-My-Zsh, tmux, powerlevel10k, everything
+Run the following from an elevated PowerShell prompt to configure WSL from scratch...
+```
+Set-ExecutionPolicy Bypass; irm 'https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/wslterm.ps1' | iex
+```
+
 ### macOS Configuration
 Run the following to configure macOS from scratch...
 ```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/mdavis332/dotfiles/mac/configure.sh)"
-```
-
-### WSL Configuration
-Run the following to configure WSL from scratch...
-```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/configure.sh)"
 ```
 
 ## install
@@ -93,6 +93,7 @@ If you're brand-new to the project and run into any blockers, please
 and I'd love to get it fixed for you!
 
 ## thanks
+[Jessica Deen](https://github.com/jldeen)'s [dotfiles](https://github.com/jldeen/dotfiles) are where I forked from after seeing this sort of thing for the first time.
 
 Holman forked [Ryan Bates](http://github.com/ryanb)' excellent
 [dotfiles](http://github.com/ryanb/dotfiles) for a couple years before the
