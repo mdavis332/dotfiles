@@ -73,11 +73,45 @@ Get-Item $file | ForEach-Object {
 
 # WSL doesn't honor the chsh command. This function manually updates the wsl-terminal.conf to move from bash to zsh
 Write-Progress -Activity "Update wsl-terminal.conf"
-$Path = "$env:USERPROFILE\wsl-terminal\etc\wsl-terminal.conf"
-(Get-Content $Path) |
+$WslConfPath = "$env:USERPROFILE\wsl-terminal\etc\wsl-terminal.conf"
+(Get-Content $WslConfPath) |
     ForEach-Object { $_ -replace '^shell=/bin/bash', ';shell=/bin/bash' `
         -replace '^;shell=/bin/zsh', 'shell=/bin/zsh'
-    } | Set-Content $Path
+    } | Set-Content $WslConfPath
+
+# Download the font to use with WSL
+Write-Progress -Activity "Download/install font"
+$font_url = 'https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/Source%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf'
+$request = [System.Net.WebRequest]::Create($font_url)
+    $request.AllowAutoRedirect=$false
+    $response=$request.GetResponse()
+    if ($response.StatusCode -eq "OK") {
+        $fontfile = $response.ResponseUri.LocalPath | Split-Path -Leaf
+    }
+    else {
+        $fontfile = 'rename.ttf'
+    }
+$FontPath = "${env:USERPROFILE}\$fontfile"
+Invoke-WebRequest $font_url -Outfile $FontPath
+$FontFolder = (New-Object -ComObject Shell.Application).Namespace(0x14)
+Get-ChildItem -Path $FontPath | ForEach-Object {
+    if (-not(Test-Path "C:\Windows\Fonts\$($_.Name)")) {
+        
+        # Install font
+        $FontFolder.CopyHere($FontPath,0x10)
+
+        # Delete temporary copy of font
+        Remove-Item $FontPath
+    }
+}
+
+# Update minttyrc file with the font and theme to use
+$MinttyrcPath = "$env:USERPROFILE\wsl-terminal\etc\minttyrc"   
+(Get-Content $MinttyrcPath) |
+    ForEach-Object { $_ -replace '^Font=.*$', 'Font=Source Code Pro Nerd Font Complete Mono' `
+    } | Set-Content $MinttyrcPath
+
+Add-Content -Path $MinttyrcPath -Value 'ThemeFile=base16-harmonic16-dark.minttyrc'
 
 Write-Progress -Activity "Ensure symlink exists"
 $symlink = "$env:USERPROFILE\Desktop\wsl.lnk"
