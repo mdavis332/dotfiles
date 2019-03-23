@@ -34,18 +34,17 @@ fi
 if [ -d ~/.oh-my-zsh/ ] ; then
 echo ''
 echo "oh-my-zsh is already installed..."
-#read -p "Would you like to update oh-my-zsh now?" -n 1 -r
-#echo ''
-#    if [[ $REPLY =~ ^[Yy]$ ]] ; then
-echo "Updating oh-my-zsh"
-cd ~/.oh-my-zsh && git pull
+read -p "Would you like to update oh-my-zsh now?" -n 1 -r
+echo ''
+    if [[ $REPLY =~ ^[Yy]$ ]] ; then
+    cd ~/.oh-my-zsh && git pull
         if [[ $? -eq 0 ]]
         then
             echo "Update complete..." && cd
         else
             echo "Update not complete..." >&2 cd
         fi
-    #fi
+    fi
 else
 echo "oh-my-zsh not found, now installing oh-my-zsh..."
 echo ''
@@ -115,9 +114,10 @@ mv dircolors.256dark .dircolors
 
 # Pull down personal dotfiles
 echo ''
-#read -p "Do you want to use mdavis' dotfiles? y/n" -n 1 -r
-echo    # (optional) move to a new line
-#if [[ $REPLY =~ ^[Yy]$ ]]; then
+read -p "Do you want to use mdavis' dotfiles? y/n" -n 1 -r
+echo ''
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
     echo ''
 	echo "Now pulling down mdavis332 dotfiles..."
 	git clone https://github.com/mdavis332/dotfiles.git ~/.dotfiles
@@ -132,26 +132,53 @@ echo    # (optional) move to a new line
         echo "Successfully configured your environment with mdavis' dotfiles..."
     else
         echo "mdavis' dotfiles were not applied successfully..." >&2
-#fi
-#else 
-#	echo ''
-#    echo "You chose not to apply mdavis' dotfiles. You will need to configure your environment manually..."
-#	echo ''
-#	echo "Setting defaults for .zshrc and .bashrc..."
-#	echo ''
-#	echo "source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-syntax-highlighting to .zshrc..."
-#	echo ''
-#	echo "source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-autosuggestions to .zshrc..."
-#	echo ''
-#	echo "source $HOME/.git-completion.bash" >> ${ZDOTDIR:-$HOME}/.bashrc && echo "added git-completion to .bashrc..."
-#	
-#fi
+fi
+else 
+	echo ''
+    echo "You chose not to apply mdavis' dotfiles. You will need to configure your environment manually..."
+	echo ''
+	echo "Setting defaults for .zshrc and .bashrc..."
+	echo ''
+	echo "source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-syntax-highlighting to .zshrc..."
+	echo ''
+	echo "source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-autosuggestions to .zshrc..."
+	echo ''
+	echo "source $HOME/.git-completion.bash" >> ${ZDOTDIR:-$HOME}/.bashrc && echo "added git-completion to .bashrc..."
+	
+fi
+
+# Setup and configure az cli
+echo ''
+read -p "Do you want to install Azure CLI? y/n (This will take some time...)" -n 1 -r
+echo ''
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+	echo "Now installing az cli..."
+    AZ_REPO=$(lsb_release -cs)
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+     sudo tee /etc/apt/sources.list.d/azure-cli.list
+
+    sudo apt-key adv --keyserver packages.microsoft.com --recv-keys 52E16F86FEE04B979B07E28DB02C46DF417A0893
+    sudo curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    sudo apt-get install apt-transport-https
+    sudo apt-get update && sudo apt-get install azure-cli
+	
+    if [[ $? -eq 0 ]]
+    then
+        echo "Successfully installed Azure CLI 2.0."
+    else
+        echo "Azure CLI not installed successfully." >&2
+    fi
+    else 
+    echo "You chose not to install Azure CLI. Exiting now."
+    fi
 
 # Set default shell to zsh
 echo ''
-#read -p "Do you want to change your default shell? y/n" -n 1 -r
+read -p "Do you want to change your default shell? y/n" -n 1 -r
 echo ''
-#if [[ $REPLY =~ ^[Yy]$ ]]; then
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
 	echo "Now setting default shell..."
     chsh -s $(which zsh)
     if [[ $? -eq 0 ]]
@@ -159,10 +186,10 @@ echo ''
         echo "Successfully set your default shell to zsh..."
     else
         echo "Default shell not set successfully..." >&2
-    fi
-#else 
-#    echo "You chose not to set your default shell to zsh. Exiting now..."
-#fi
+fi
+else 
+    echo "You chose not to set your default shell to zsh. Exiting now..."
+fi
 
 echo ''
 echo '	Badass WSL terminal installed! Please reboot your computer for changes to be made.'
