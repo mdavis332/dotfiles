@@ -87,13 +87,13 @@ set -g status-right-length 100
 set -g status-left-length 80
 
 set-window-option -g aggressive-resize
-setw -g window-status-current-fg colour170
+setw -g window-status-current-fg colour68
 setw -g window-status-current-bg colour239
 setw -g window-status-current-attr bold
 setw -g window-status-current-format ' #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour68]#F '
 
 set-option -g set-titles-string 'do epic stuff. | #S | / #W'
-setw -g window-status-current-fg colour170
+setw -g window-status-current-fg colour68
 setw -g window-status-current-attr bold
 setw -g window-status-current-format ' #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour68]#F '
 
