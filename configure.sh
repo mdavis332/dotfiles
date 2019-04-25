@@ -15,6 +15,11 @@ echo ''
 sudo apt install zsh -y
 fi
 
+# Installing 7zip
+echo ''
+echo "Now installing 7zip..."
+sudo apt-get install p7zip-full
+
 # Installing git completion
 echo ''
 echo "Now installing git and bash-completion..."
