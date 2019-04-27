@@ -35,6 +35,12 @@ if ! curl "$URL" --silent --output "$HOME/.git-completion.bash"; then
 	echo "ERROR: Couldn't download completion script. Make sure you have a working internet connection." && exit 1
 fi
 
+# Installing vim-gtk for +clipboard support in vim
+echo ''
+echo "Now installing vim-gtk..."
+echo '
+sudo apt-get install vim-gtk -y
+
 # oh-my-zsh install
 if [ -d ~/.oh-my-zsh/ ] ; then
 echo ''
