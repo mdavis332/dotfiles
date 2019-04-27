@@ -104,6 +104,7 @@ setw -g window-status-current-format ' #I#[fg=colour250]:#[fg=colour255]#W#[fg=c
    chriszarate/tmux-tasks       \
    soyuka/tmux-current-pane-hostname     \
    christoomey/vim-tmux-navigator       \
+   tmux-plugins/tmux-yank       \
 '
 
 # Other examples:
