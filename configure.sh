@@ -30,6 +30,12 @@ echo ''
 brew install zsh zsh-completions
 fi
 
+# Installing vim-gtk for +clipboard support in vim
+echo ''
+echo "installing vim-gtk"
+echo ''
+brew install vim-gtk
+
 # Installing git completion
 echo ''
 echo "Now installing git and bash-completion..."
