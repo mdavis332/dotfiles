@@ -2,7 +2,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 set nowrap                    " disable line wrapping
 set mousemodel=popup        " Right mouse button pops up a menu.  The shifted leftmouse button extends a selection (Windows behavior)
-
+set clipboard=unnamedplus     " system clipboard support
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
