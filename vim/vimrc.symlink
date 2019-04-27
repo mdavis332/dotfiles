@@ -63,3 +63,13 @@ set ttyfast
 set lazyredraw
 map tt :NERDTreeToggle<CR> "double click t button to toggle NerdTree
 map [] :TagbarToggle<CR> "click [] to toggle Tagbar
+
+" WSL yank support
+" Thansk to /u/bravekarms here: https://www.reddit.com/r/vim/comments/7pmv3d/workflows_that_work/dskyram/
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " default location
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * call system(s:clip, join(v:event.regcontents, "\<CR>"))
+    augroup END
+end
