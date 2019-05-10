@@ -105,13 +105,6 @@ echo "Now installing Nerdtree for Vim..."
 echo ''
 git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
 
-# Vim color scheme install
-echo ''
-echo "Now installing vim wombat color scheme..."
-echo ''
-git clone https://github.com/sheerun/vim-wombat-scheme.git ~/.vim/colors/wombat 
-mv ~/.vim/colors/wombat/colors/* ~/.vim/colors/
-
 # Midnight commander install
 echo ''
 echo "Now installing Midnight commander..."
@@ -133,6 +126,7 @@ then
 	echo "Checking out macOS branch..." && git checkout mac
 	echo ''
 	echo "Now configuring symlinks..." && $HOME/.dotfiles/script/bootstrap
+	echo "Now installing vim vundle plugins..." && vim +PluginInstall +qall
     echo ''
 
     if [[ $? -eq 0 ]]
