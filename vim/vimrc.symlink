@@ -13,6 +13,7 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'dracula/vim'
 Plugin 'nightsense/seabird'
 Plugin 'tomasiser/vim-code-dark'
+Plugin 'jdkanani/vim-material-theme'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'christoomey/vim-tmux-navigator'
 call vundle#end()            " required
@@ -29,12 +30,12 @@ execute pathogen#infect()
 " theme
 " ----
 syntax on
-" colorscheme wombat
+colorscheme elflord
 " ----
 " End theme
 
 " Airline
-let g:airline_theme='bubblegum'
+let g:airline_theme='papercolor'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
