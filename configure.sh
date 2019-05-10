@@ -95,13 +95,6 @@ echo "Now installing Nerdtree for Vim..."
 echo ''
 git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
 
-# Vim color scheme install
-echo ''
-echo "Now installing vim wombat color scheme..."
-echo ''
-git clone https://github.com/sheerun/vim-wombat-scheme.git ~/.vim/colors/wombat 
-mv ~/.vim/colors/wombat/colors/* ~/.vim/colors/
-
 # Midnight commander install
 echo ''
 echo "Now installing Midnight commander..."
@@ -138,6 +131,7 @@ then
 	echo "Checking out wsl branch..." && git checkout wsl
 	echo ''
 	echo "Now configuring symlinks..." && $HOME/.dotfiles/script/bootstrap
+	echo "Now installing vim vundle plugins..." && vim +PluginInstall +qall
     if [[ $? -eq 0 ]]
     then
         echo "Successfully configured your environment with mdavis' dotfiles..."
