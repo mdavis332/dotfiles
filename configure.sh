@@ -69,6 +69,8 @@ echo ''
 git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
 git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+# ensure correct permissions on those plugin dirs
+find ~/.oh-my-zsh/custom/plugins/ -maxdepth 1 -type d -print | xargs chmod g-w,o-w
 
 # powerlevel10k install
 echo ''
