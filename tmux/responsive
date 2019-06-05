@@ -16,11 +16,11 @@ if [ "$WIDTH" -gt "$X_LARGE" ]; then
 fi
 
 if [ "$WIDTH" -ge "$LARGE" ]; then
-  DATE="#[fg=colour255,bg=colour241,bold] $CALENDAR $(date +'%a %m-%d-%y')"
+  DATE="#[fg=colour255,bg=colour241,nobold] $CALENDAR $(date +'%a %m-%d-%y')"
 fi
 
 if [ "$WIDTH" -ge "$MEDIUM" ]; then
-  TIME="#[fg=colour255,bg=colour241,bold] $(date +'%H:%M:%S')"
+  TIME="#[fg=colour255,bg=colour241,nobold] $(date -u +'%H:%M:%S') UTC"
 fi
 
 if [ "$WIDTH" -ge "$SMALL" ]; then
