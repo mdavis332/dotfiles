@@ -70,6 +70,8 @@ else
 echo "oh-my-zsh not found, now installing oh-my-zsh..."
 echo ''
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# create symlink to functions folder
+ln -s ~/.dotfiles/functions ~/.oh-my-zsh/functions
 fi
 
 # oh-my-zsh plugin install
