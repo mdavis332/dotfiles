@@ -15,6 +15,11 @@ echo ''
 sudo apt install zsh -y
 fi
 
+# Installing 7zip
+echo ''
+echo "Now installing 7zip..."
+sudo apt-get install p7zip-full
+
 # Installing git completion
 echo ''
 echo "Now installing git and bash-completion..."
@@ -29,6 +34,12 @@ echo "Downloading git-completion for git version: $GIT_VERSION..."
 if ! curl "$URL" --silent --output "$HOME/.git-completion.bash"; then
 	echo "ERROR: Couldn't download completion script. Make sure you have a working internet connection." && exit 1
 fi
+
+# Installing vim-gtk for +clipboard support in vim
+echo ''
+echo "Now installing vim-gtk..."
+echo '
+sudo apt-get install vim-gtk -y
 
 # oh-my-zsh install
 if [ -d ~/.oh-my-zsh/ ] ; then
@@ -49,21 +60,25 @@ else
 echo "oh-my-zsh not found, now installing oh-my-zsh..."
 echo ''
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# create symlink to functions folder
+ln -s ~/.dotfiles/functions ~/.oh-my-zsh/functions
 fi
 
 # oh-my-zsh plugin install
 echo ''
 echo "Now installing oh-my-zsh plugins..."
 echo ''
-git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom/plugins/zsh-completions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+# ensure correct permissions on those plugin dirs
+find ~/.oh-my-zsh/custom/plugins/ -maxdepth 1 -type d -print | xargs chmod g-w,o-w
 
-# powerlevel9k install
+# powerlevel10k install
 echo ''
-echo "Now installing powerlevel9k..."
+echo "Now installing powerlevel10k..."
 echo ''
-git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 
 # vimrc vundle install
 echo ''
@@ -83,13 +98,6 @@ echo ''
 echo "Now installing Nerdtree for Vim..."
 echo ''
 git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
-
-# Vim color scheme install
-echo ''
-echo "Now installing vim wombat color scheme..."
-echo ''
-git clone https://github.com/sheerun/vim-wombat-scheme.git ~/.vim/colors/wombat 
-mv ~/.vim/colors/wombat/colors/* ~/.vim/colors/
 
 # Midnight commander install
 echo ''
@@ -114,34 +122,35 @@ mv dircolors.256dark .dircolors
 
 # Pull down personal dotfiles
 echo ''
-read -p "Do you want to use jldeen's dotfiles? y/n" -n 1 -r
-echo    # (optional) move to a new line
+read -p "Do you want to use mdavis' dotfiles? y/n" -n 1 -r
+echo ''
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo ''
-	echo "Now pulling down jldeen dotfiles..."
-	git clone https://github.com/jldeen/dotfiles.git ~/.dotfiles
+	echo "Now pulling down mdavis332 dotfiles..."
+	git clone https://github.com/mdavis332/dotfiles.git ~/.dotfiles
 	echo ''
 	cd $HOME/.dotfiles && echo "switched to .dotfiles dir..."
 	echo ''
 	echo "Checking out wsl branch..." && git checkout wsl
 	echo ''
 	echo "Now configuring symlinks..." && $HOME/.dotfiles/script/bootstrap
+	echo "Now installing vim vundle plugins..." && vim +PluginInstall +qall
     if [[ $? -eq 0 ]]
     then
-        echo "Successfully configured your environment with jldeen's dotfiles..."
+        echo "Successfully configured your environment with mdavis' dotfiles..."
     else
-        echo "jldeen's dotfiles were not applied successfully..." >&2
+        echo "mdavis' dotfiles were not applied successfully..." >&2
 fi
 else 
 	echo ''
-    echo "You chose not to apply jldeen's dotfiles. You will need to configure your environment manually..."
+    echo "You chose not to apply mdavis' dotfiles. You will need to configure your environment manually..."
 	echo ''
 	echo "Setting defaults for .zshrc and .bashrc..."
 	echo ''
-	echo "source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-syntax-highlighting to .zshrc..."
+	echo "source $HOME/.oh-my-zsh/custom/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-syntax-highlighting to .zshrc..."
 	echo ''
-	echo "source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-autosuggestions to .zshrc..."
+	echo "source $HOME/.oh-my-zsh/custom/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc && echo "added zsh-autosuggestions to .zshrc..."
 	echo ''
 	echo "source $HOME/.git-completion.bash" >> ${ZDOTDIR:-$HOME}/.bashrc && echo "added git-completion to .bashrc..."
 	
