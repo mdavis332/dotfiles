@@ -248,7 +248,7 @@ alias cmdtool="/mnt/c/Users/michael-local/wsl-terminal/cmdtool"
 
 export PATH=$PATH:~/bin
 
-bindkey '^H' backward-kill-word
+bindkey '^_' backward-kill-word # bind Ctrl+Backspace as delete previous word
 
 cd ~
 # az cli

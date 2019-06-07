@@ -9,6 +9,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'tpope/vim-fugitive'
 Plugin 'git://git.wincent.com/command-t.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -20,19 +21,16 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'christoomey/vim-tmux-navigator'
 call vundle#end()            " required
 
-" filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-set tabstop=2
-
 " Put your non-Plugin stuff after this line
 
 execute pathogen#infect()
 " theme
 " ----
 syntax on
+set t_Co=256 " tell vim we have 256-color term
 set background=dark
-colorscheme material-theme
+"colorscheme material-theme
+colorscheme PaperColor
 " ----
 " End theme
 
@@ -70,6 +68,36 @@ set ttyfast
 set lazyredraw
 map tt :NERDTreeToggle<CR> "double click t button to toggle NerdTree
 map [] :TagbarToggle<CR> "click [] to toggle Tagbar
+
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+" filetype plugin on
+set tabstop=2
+set shiftwidth=2		" number of spaces to use for autoindenting
+set autoindent 			" always set autoindenting on
+set copyindent			" copy the previous indentation on autoindenting
+set showmatch				" set show matching parentheses
+set ignorecase			" ignore case when searching
+set smartcase				" ignore case if search pattern is all lowercase, case-sensitive otherwise
+set splitright			" open vertical splits to the right
+set splitbelow			" open horizontal splits to the bottom
+"set cursorline			" highlight current line
+set smarttab				" insert tabs on start of a line according to shiftwidth, not tabstop
+"set hlsearch				" highlight search terms
+set incsearch				" show matches as you type
+" turn off highlighting after search
+nnoremap <leader><space> :noh<cr>
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+" map Ctrl+Backspace to delete the previous word in insert mode
+" Ctrl+Backspace sends ^_ sequence in MinTTY
+imap <C-_> <C-W>
+set ruler
+set wildmenu
+set formatoptions+=j
+au BufEnter * set fo-=c fo-=r fo-=o " don't auto-comment on paste/enter
+set autoread " autoread only execs on an external command or :e, so add the following
+" trigger autoread whenever buffers switch or when focusing vim again
+au FocusGained,BufEnter * :silent! !
 
 " WSL yank support
 " Thansk to /u/bravekarms here: https://www.reddit.com/r/vim/comments/7pmv3d/workflows_that_work/dskyram/
