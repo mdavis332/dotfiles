@@ -3,14 +3,40 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
-export TERM=screen-256color
+#export TERM=screen-256color
+export TERM=xterm-256color
+
+# Source the ~/.profile
+[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
+
+# all of our zsh files
+typeset -U config_files
+config_files=(~/.dotfiles/zsh/*.zsh)
+
+# load everything but the path and completion files
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
+do
+  source $file
+done
+
+# initialize autocomplete here, otherwise functions won't be loaded
+autoload -U compinit
+compinit
+
+# load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.zsh}
+do
+  source $file
+done
+
+unset config_files
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # POWERLEVEL9K_MODE='awesome-fontconfig'
 POWERLEVEL9K_MODE="nerdfont-complete"
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # POWERLEVEL9K_IP_INTERFACE='en0'
 # POWERLEVEL9K_PUBLIC_IP_HOST='http://ident.me'
@@ -19,19 +45,84 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 ZSH_TMUX_AUTOSTART='true'
 
 ## Powerlevel9k Settings
-POWERLEVEL9K_HISTORY_BACKGROUND='green'
+POWERLEVEL9K_ALWAYS_SHOW_CONTEXT='true'
+POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND=006
+POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=235
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND=006
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=235
 
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
+POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND=235
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND=006
+POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=235
+POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=006
+POWERLEVEL9K_CONTEXT_TEMPLATE=%n
 
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_DIR_DEFAULT_BACKGROUND=006
+POWERLEVEL9K_DIR_DEFAULT_FOREGROUND=235
+POWERLEVEL9K_DIR_HOME_BACKGROUND=006
+POWERLEVEL9K_DIR_HOME_FOREGROUND=235
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND=006
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND=235
+POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND=006
+POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND=235
+
+POWERLEVEL9K_EXECUTION_TIME_ICON='\u23F1'
+POWERLEVEL9K_HISTORY_FOREGROUND=006
+
+POWERLEVEL9K_HOST_LOCAL_BACKGROUND=235
+POWERLEVEL9K_HOST_LOCAL_FOREGROUND=006
+POWERLEVEL9K_HOST_REMOTE_BACKGROUND=235
+POWERLEVEL9K_HOST_REMOTE_FOREGROUND=006
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh root_indicator os_icon context dir_writable dir vcs)
+POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR='\uE0B8 '
+POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR='%F{233}|%f'
 
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{red} \Uf1d0 %f %F{yellow
-}❯ "
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='╰\uF460 '
+#POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{red} \Uf1d0 %f %F{yellow
+#}❯ "
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history)
+POWERLEVEL9K_OS_ICON_BACKGROUND=235
+POWERLEVEL9K_OS_ICON_FOREGROUND=006
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( proxy command_execution_time background_jobs status time )
+#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history)
+## may want to remove the following lines til...
+POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0BA '
+POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR='%F{233}|%f'
+POWERLEVEL9K_ROOT_ICON='\uF198'
+POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND=233
+POWERLEVEL9K_ROOT_INDICATOR_FOREGROUND=magenta
+### here ####
+
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
+
+POWERLEVEL9K_SSH_BACKGROUND=233
+POWERLEVEL9K_SSH_FOREGROUND=yellow
+POWERLEVEL9K_SSH_ICON='\uF489'
+POWERLEVEL9K_STATUS_CROSS=true
+POWERLEVEL9K_STATUS_ERROR_BACKGROUND=237
+POWERLEVEL9K_STATUS_ERROR_FOREGROUND=red
+POWERLEVEL9K_STATUS_OK_BACKGROUND=237
+POWERLEVEL9K_STATUS_OK_FOREGROUND=green
+
+POWERLEVEL9K_TIME_BACKGROUND=235
+POWERLEVEL9K_TIME_FOREGROUND=006
+
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND=green
+POWERLEVEL9K_VCS_CLEAN_FOREGROUND=235
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=172
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=235
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=magenta
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=235
+
+POWERLEVEL9K_VIRTUALENV_BACKGROUND=60
+POWERLEVEL9K_VIRTUALENV_FOREGROUND=221
+
 
 # # Refresh Function - https://babushk.in/posts/renew-environment-tmux.html
 # if [ -n "$TMUX" ]; then                                                                               
@@ -52,7 +143,7 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history)
 ## 
 
 # Default username to hide "user@hostname" info
-DEFAULT_USER="jldeen"
+DEFAULT_USER="mad12"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -96,11 +187,10 @@ DEFAULT_USER="jldeen"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(sudo git history taskwarrior tmux tmuxinator zsh-autosuggestions)
+plugins=(sudo git history taskwarrior tmux tmuxinator zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # User configuration
 
@@ -132,9 +222,18 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias zshconfig="code ~/.zshrc"
 alias ohmyzsh="code ~/.oh-my-zsh"
 alias k="kubectl"
+alias cmdtool="/mnt/c/Users/michael-local/wsl-terminal/cmdtool"
 
 export PATH=$PATH:~/bin
+
+bindkey '^H' backward-kill-word
 
 # az cli
 # autoload bashcompinit && bashcompinit
 # source /usr/bin/az
+
+PATH="/home/mad12/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/mad12/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/mad12/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/mad12/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/mad12/perl5"; export PERL_MM_OPT;

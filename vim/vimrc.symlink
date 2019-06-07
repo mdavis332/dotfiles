@@ -1,5 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set nowrap 		      " disable line wrapping
+set mousemodel=extend 	      " mouse scrolling?
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -10,32 +12,35 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'git://git.wincent.com/command-t.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'dracula/vim'
-Plugin 'nightsense/seabird'
+Plugin 'nightsense/snow'
 Plugin 'tomasiser/vim-code-dark'
+Plugin 'jdkanani/vim-material-theme'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'christoomey/vim-tmux-navigator'
 call vundle#end()            " required
 
-filetype plugin indent on    " required
+filetype plugin on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
+set tabstop=2
 
 " Put your non-Plugin stuff after this line
 
 execute pathogen#infect()
-
 " theme
 " ----
 syntax on
-" colorscheme wombat
+set background=dark
+colorscheme material-theme
 " ----
 " End theme
 
 " Airline
-let g:airline_theme='bubblegum'
+let g:airline_theme='papercolor'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-
+let g:airline_left_sep = "\ue0b8 "
+let g:airline_right_sep = "\ue0ba "
 " Always show statusline
 " ------
 set laststatus=2
@@ -43,10 +48,15 @@ set laststatus=2
 
 " Set line number
 set number
+" copy (write) highlighted text to .vimbuffer
+" from https://stackoverflow.com/questions/44480829/how-to-copy-to-clipboard-in-vim-of-bash-on-windows
+vmap <C-c> y:new ~/.vimbuffer<CR>VGp:x<CR> \| :!cat ~/.vimbuffer \| clip.exe <CR><CR>
+" paste from buffer
+map <C-v> :r ~/.vimbuffer<CR>
 
 " Nerdtree Settings
 set mouse=a
-autocmd VimEnter * NERDTree | wincmd p
+" autocmd VimEnter * NERDTree | wincmd p
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 map <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = '▸'
