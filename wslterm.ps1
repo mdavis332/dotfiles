@@ -81,7 +81,7 @@ $WslConfPath = "$env:USERPROFILE\wsl-terminal\etc\wsl-terminal.conf"
 
 # Download the font to use with WSL
 Write-Progress -Activity "Download/install font"
-$font_url = 'https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/Source%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf'
+$font_url = 'https://github.com/mdavis332/dotfiles/raw/wsl/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono%20Windows%20Compatible.ttf'
 $request = [System.Net.WebRequest]::Create($font_url)
     $request.AllowAutoRedirect=$false
     $response=$request.GetResponse()
@@ -110,10 +110,16 @@ Remove-Item $FontPath
 # Update minttyrc file with the font and theme to use
 $MinttyrcPath = "$env:USERPROFILE\wsl-terminal\etc\minttyrc"   
 (Get-Content $MinttyrcPath) |
-    ForEach-Object { $_ -replace '^Font=.*$', 'Font=Source Code Pro Nerd Font Complete Mono' `
+    ForEach-Object { $_ -replace '^Font=.*$', 'Font=SauceCodePro NF' `
+    -replace 'FontHeight=.*$', 'FontHeight=12' `
     } | Set-Content $MinttyrcPath
 
-Add-Content -Path $MinttyrcPath -Value 'ThemeFile=base16-harmonic16-dark.minttyrc'
+Add-Content -Path $MinttyrcPath -Value 'Transparency=medium'
+Add-Content -Path $MinttyrcPath -Value 'OpaqueWhenFocused=yes'
+Add-Content -Path $MinttyrcPath -Value 'RightClickAction=menu'
+Add-Content -Path $MinttyrcPath -Value 'CopyOnSelect=yes'
+Add-Content -Path $MinttyrcPath -Value 'AllowSetSelection=yes'
+Add-Content -Path $MinttyrcPath -Value 'CtrlShiftShortcuts=yes'
 
 Write-Progress -Activity "Ensure symlink exists"
 $symlink = "$env:USERPROFILE\Desktop\wsl.lnk"
