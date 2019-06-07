@@ -250,6 +250,7 @@ export PATH=$PATH:~/bin
 
 bindkey '^H' backward-kill-word
 
+cd ~
 # az cli
 # autoload bashcompinit && bashcompinit
 # source /usr/bin/az
