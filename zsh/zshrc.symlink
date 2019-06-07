@@ -31,6 +31,28 @@ done
 
 unset config_files
 
+# all of our zsh files
+typeset -U config_files
+config_files=(~/.dotfiles/zsh/*.zsh)
+
+# load everything but the path and completion files
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
+do
+  source $file
+done
+
+# initialize autocomplete here, otherwise functions won't be loaded
+autoload -U compinit
+compinit
+
+# load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.zsh}
+do
+  source $file
+done
+
+unset config_files
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -190,11 +212,7 @@ DEFAULT_USER="mad12"
 plugins=(sudo git history taskwarrior tmux tmuxinator zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-<<<<<<< HEAD
 #source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-=======
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
->>>>>>> 214ff86052a6a39636d299b4087915439306ba0a
 
 # User configuration
 
@@ -235,9 +253,3 @@ bindkey '^H' backward-kill-word
 # az cli
 # autoload bashcompinit && bashcompinit
 # source /usr/bin/az
-
-PATH="/home/mad12/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/mad12/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/mad12/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/mad12/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/mad12/perl5"; export PERL_MM_OPT;

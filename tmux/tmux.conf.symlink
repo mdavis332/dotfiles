@@ -81,6 +81,7 @@ set -g status-position bottom
 set -g status-bg colour237
 set -g status-fg colour137
 set -g status-attr 'none'
+# set -g status-left ' #[fg=colour197]#(~/bin/internet_info.sh) '
 set -g status-right '#(eval ~/.tmux/responsive `tmux display -p "#{client_width}"`)#[fg=colour68]#[bg=default] #H'
 set -g status-right-length 100
 set -g status-left-length 80
@@ -103,6 +104,7 @@ setw -g window-status-current-format ' #I#[fg=colour250]:#[fg=colour255]#W#[fg=c
    chriszarate/tmux-tasks       \
    soyuka/tmux-current-pane-hostname     \
    christoomey/vim-tmux-navigator       \
+   tmux-plugins/tmux-yank       \
 '
 
 # Other examples:

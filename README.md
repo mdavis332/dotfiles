@@ -1,14 +1,15 @@
-# jldeen does dotfiles - forked from holman's repo
+# mdavis332 dotfiles - forked jldeen which was forked from holman's repo
 
-### WSL Configuration / Install
-Run the following to configure WSL from scratch...
-```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/jldeen/dotfiles/wsl/configure.sh)"
-```
-### WSL Emulator Install
+### WSL Emulator, Oh-My-Zsh, tmux, powerlevel10k, everything
 Run the following command from an Administrator PowerShell prompt...
 ```
-Set-ExecutionPolicy Bypass; irm 'https://raw.githubusercontent.com/jldeen/dotfiles/wsl/wslterm.ps1' | iex;
+Set-ExecutionPolicy Bypass; irm 'https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/wslterm.ps1' | iex
+```
+
+### WSL Configuration / Install
+Run the following to configure just the Linux-y bits (this is already done if you ran the command above)
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/mdavis332/dotfiles/wsl/configure.sh)"
 ```
 
 ### Notes
@@ -36,7 +37,7 @@ symlinked without extension into `$HOME` when you run `script/bootstrap`.
 
 A lot of stuff. Seriously, a lot of stuff. Check them out in the file browser
 above and see what components may mesh up with you.
-[Fork holman's](https://github.com/holman/dotfiles/fork) or [Fork mine](htps://github.com/jldeen/dotfiles/fork), remove what you don't
+[Fork holman's](https://github.com/holman/dotfiles/fork) or [Fork mine](https://github.com/mdavis332/dotfiles/fork), remove what you don't
 use, and build on what you do use.
 
 ## components
@@ -64,7 +65,7 @@ There are two "master" branches here: WSL and MacOS.
 If you wish to clone these files and run scripts manually, run this:
 
 ```sh
-git clone https://github.com/jldeen/dotfiles.git ~/.dotfiles
+git clone https://github.com/mdavis332/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 script/bootstrap
 ```
@@ -88,14 +89,16 @@ said, I do use this as *my* dotfiles, so there's a good chance I may break
 something if I forget to make a check for a dependency.
 
 If you're brand-new to the project and run into any blockers, please
-[open an issue](https://github.com/holman/dotfiles/issues) on this repository
+[open an issue](https://github.com/mdavis332/dotfiles/issues) on this repository
 and I'd love to get it fixed for you!
 
 ## thanks
 
-I forked [Ryan Bates](http://github.com/ryanb)' excellent
+[Jessica Deen](https://github.com/jldeen)'s [dotfiles](https://github.com/jldeen/dotfiles) are where I forked from after seeing this sort of thing for the first time.
+
+@jldeen forked [Ryan Bates](https://github.com/ryanb)' excellent
 [dotfiles](http://github.com/ryanb/dotfiles) for a couple years before the
-weight of my changes and tweaks inspired me to finally roll my own. But Ryan's
+weight of the changes and tweaks inspired her to finally roll her own. But Ryan's
 dotfiles were an easy way to get into bash customization, and then to jump ship
 to zsh a bit later. A decent amount of the code in these dotfiles stem or are
-inspired from Ryan's original project.
+inspired from Ryan's original project. 

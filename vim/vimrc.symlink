@@ -1,7 +1,8 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
-set nowrap 		      " disable line wrapping
 set mousemodel=extend 	      " mouse scrolling?
+set nowrap                    " disable line wrapping
+set clipboard=unnamedplus     " Enables system clipboard support
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -19,9 +20,9 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'christoomey/vim-tmux-navigator'
 call vundle#end()            " required
 
-filetype plugin on    " required
+" filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+filetype plugin on
 set tabstop=2
 
 " Put your non-Plugin stuff after this line
@@ -69,3 +70,13 @@ set ttyfast
 set lazyredraw
 map tt :NERDTreeToggle<CR> "double click t button to toggle NerdTree
 map [] :TagbarToggle<CR> "click [] to toggle Tagbar
+
+" WSL yank support
+" Thansk to /u/bravekarms here: https://www.reddit.com/r/vim/comments/7pmv3d/workflows_that_work/dskyram/
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " default location
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * call system(s:clip, join(v:event.regcontents, "\<CR>"))
+    augroup END
+end
