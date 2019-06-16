@@ -249,6 +249,8 @@ alias cmdtool="/mnt/c/Users/michael-local/wsl-terminal/cmdtool"
 export PATH=$PATH:~/bin
 
 bindkey '^_' backward-kill-word # bind Ctrl+Backspace as delete previous word
+bindkey '^[[1~' beginning-of-line # bind Home key to beginning of line for mintty
+bindkey '^[[4~' end-of-line # bind End key to end of line for mintty
 
 cd ~
 # az cli
