@@ -250,7 +250,6 @@ export PATH=$PATH:~/bin
 
 bindkey '^_' backward-kill-word # bind Ctrl+Backspace as delete previous word
 
+# start shell in home dir
 cd ~
-# az cli
-# autoload bashcompinit && bashcompinit
-# source /usr/bin/az
+
