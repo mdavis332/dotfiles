@@ -45,7 +45,7 @@ set laststatus=2
 " ------
 
 " Set line number
-set number
+set number relativenumber
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
