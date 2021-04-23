@@ -83,6 +83,7 @@ set splitright			" open vertical splits to the right
 set splitbelow			" open horizontal splits to the bottom
 set cursorline			" highlight current line
 set smarttab				" insert tabs on start of a line according to shiftwidth, not tabstop
+set expandtab               " expands tab to spaces
 "set hlsearch				" highlight search terms
 set incsearch				" show matches as you type
 " turn off highlighting after search
