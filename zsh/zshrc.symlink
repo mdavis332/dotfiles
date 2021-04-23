@@ -110,7 +110,7 @@ POWERLEVEL9K_OS_ICON_FOREGROUND=037
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( proxy command_execution_time background_jobs status time )
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( virtualenv proxy command_execution_time background_jobs status time )
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history)
 ## may want to remove the following lines til...
 POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR='\uE0BA '
