@@ -18,7 +18,7 @@ fi
 # Installing 7zip
 echo ''
 echo "Now installing 7zip..."
-sudo apt-get install p7zip-full
+sudo apt-get install p7zip-full -y
 
 # Installing git completion
 echo ''
@@ -38,7 +38,7 @@ fi
 # Installing vim-gtk for +clipboard support in vim
 echo ''
 echo "Now installing vim-gtk..."
-echo '
+echo ''
 sudo apt-get install vim-gtk -y
 
 # oh-my-zsh install
@@ -68,9 +68,9 @@ fi
 echo ''
 echo "Now installing oh-my-zsh plugins..."
 echo ''
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom/plugins/zsh-completions
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 # ensure correct permissions on those plugin dirs
 find ~/.oh-my-zsh/custom/plugins/ -maxdepth 1 -type d -print | xargs chmod g-w,o-w
 
@@ -169,8 +169,8 @@ then
 
     sudo apt-key adv --keyserver packages.microsoft.com --recv-keys 52E16F86FEE04B979B07E28DB02C46DF417A0893
     sudo curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-    sudo apt-get install apt-transport-https
-    sudo apt-get update && sudo apt-get install azure-cli
+    sudo apt-get install apt-transport-https -y
+    sudo apt-get update && sudo apt-get install azure-cli -y
 	
     if [[ $? -eq 0 ]]
     then
@@ -184,7 +184,7 @@ then
 
 # Set default shell to zsh
 echo ''
-read -p "Do you want to change your default shell? y/n" -n 1 -r
+read -p "Do you want to change your default shell to zsh? y/n" -n 1 -r
 echo ''
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
@@ -201,4 +201,4 @@ else
 fi
 
 echo ''
-echo '	Badass WSL terminal installed! Please reboot your computer for changes to be made.'
+echo 'Bad mamma-jamma WSL terminal installed!'
