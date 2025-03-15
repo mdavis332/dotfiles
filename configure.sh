@@ -9,13 +9,13 @@ brewInstall () {
     # Install the correct homebrew for each OS type
         if test "$(uname)" = "Darwin"
         then
-            "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> $HOME/.zprofile
             eval "$(/opt/homebrew/bin/brew shellenv)"
             success 'brew installed'
         elif test "$(expr substr $(uname -s) 1 5)" = "Linux"
         then
-            ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             success 'brew installed'
         fi
     else
