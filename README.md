@@ -1,4 +1,4 @@
-# jldeen does dotfiles - forked from holman's repo
+# mdavis does dotfiles - forked from jldeen's repo
 
 ### macOS Configuration
 Run the following to configure macOS from scratch...
