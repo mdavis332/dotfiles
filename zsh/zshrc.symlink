@@ -109,6 +109,8 @@ DEFAULT_USER="mdavis"
 plugins=(sudo git history taskwarrior tmux tmuxinator zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # User configuration
 
@@ -193,6 +195,9 @@ export PATH="/usr/local/sbin:$PATH"
 #---- End Export ----
 
 #---- Source ----
+source $ZSH/oh-my-zsh.sh
+source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # font source
 source ~/.fonts/*.sh
 
