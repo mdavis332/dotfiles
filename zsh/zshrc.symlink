@@ -38,6 +38,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # zsh tmux settings
 ZSH_TMUX_AUTOSTART='true'
+# do not autoconnect to existing session, allows a new iTerm tab to open with a new tmux session
+ZSH_TMUX_AUTOCONNECT='false'
 
 ## Powerlevel9k Settings
 POWERLEVEL9K_HISTORY_BACKGROUND='green'
