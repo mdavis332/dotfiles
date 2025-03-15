@@ -5,58 +5,36 @@
 export ZSH=~/.oh-my-zsh
 export TERM=xterm-256color
 
-# all of our zsh files
-typeset -U config_files
-config_files=(~/.dotfiles/zsh/*.zsh)
-
-# load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
-do
-  source $file
-done
-
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
-
-# load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}
-do
-  source $file
-done
-
-unset config_files
-
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-POWERLEVEL9K_MODE="awesome-fontconfig"
+# ZSH Customization Settings
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# POWERLEVEL9K_IP_INTERFACE='en0'
-# POWERLEVEL9K_PUBLIC_IP_HOST='http://ident.me'
 
 # zsh tmux settings
 ZSH_TMUX_AUTOSTART='true'
-# do not autoconnect to existing session, allows a new iTerm tab to open with a new tmux session
+
+# do not autoconnect to existing tmux session, allows a new term new tmux session
 ZSH_TMUX_AUTOCONNECT='false'
 
-## Powerlevel9k Settings
-POWERLEVEL9K_HISTORY_BACKGROUND='green'
+# syntax highlighting
+# typeset -A ZSH_HIGHLIGHT_STYLES
 
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
+# #Background Jobs Function
+# set_default POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE true
+# prompt_background_jobs() {
+# local background_jobs_number=${$(jobs -l | wc -l)// /}
+# local wrong_lines=`jobs -l | awk '/pwd now/{ count++ } END {print count}'`
+# if [[ wrong_lines -gt 0 ]]; then
+#      background_jobs_number=$(( $background_jobs_number - $wrong_lines ))
+#   fi
+#   if [[ background_jobs_number -gt 0 ]]; then
+#     local background_jobs_number_print="1"
+#     if [[ "$POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE" == "true" ]] && [[ "$background_jobs_number" -gt 1 ]]; then
+#       background_jobs_number_print="$background_jobs_number"
+#     fi
+#     "$1_prompt_segment" "$0" "$2" "$DEFAULT_COLOR" "cyan" "$background_jobs_number_print" 'BACKGROUND_JOBS_ICON'
+#   fi
+# }
 
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=($'%F{red} \uf1d0 %f %F{yellow}❯ ')
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history kubecontext)
-
-POWERLEVEL9K_KUBECONTEXT_BACKGROUND='004'
-POWERLEVEL9K_KUBECONTEXT_FOREGROUND='000'
+# ZSH Git Colors
 
 # Refresh Function - https://babushk.in/posts/renew-environment-tmux.html
 # if [ -n "$TMUX" ]; then                                                                               
@@ -67,11 +45,6 @@ POWERLEVEL9K_KUBECONTEXT_FOREGROUND='000'
 # else                                                                                                  
 #   function refresh { }                                                                              
 # fi
-
-# # Then, I define a preexec hook that calls refresh before each new command that gets executed:
-# function preexec {                                                                                    
-#     refresh                                                                                           
-# }
 
 # POWERLEVEL9K_TIME_FORMAT="%D{%T | %m.%d.%y}"
 ## 
@@ -92,7 +65,7 @@ DEFAULT_USER="whoami"
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
 
-# Uncomment the following line to disable colors in ls.
+#Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
@@ -121,11 +94,7 @@ DEFAULT_USER="whoami"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(sudo git history taskwarrior tmux tmuxinator zsh-autosuggestions zsh-syntax-highlighting)
-
-source $ZSH/oh-my-zsh.sh
-source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+plugins=(sudo git history taskwarrior tmux tmuxinator zsh-autosuggestions zsh-completions)
 
 # User configuration
 
@@ -148,61 +117,19 @@ source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.z
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 #---- CUSTOM ----
-#---- Functions ----
-function toggleClock () {
-    ~/Git/dotfiles/bin/toggleClock.sh
-}
+#Powerlevel9k/Powerlevel10k settings
+# https://github.com/bhilburn/powerlevel9k/wiki/Show-Off-Your-Config#p9kgt
+source $ZSH/oh-my-zsh.sh
+source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.p9kgt
+source $HOME/.functions
+source $HOME/.aliases
+autoload -U compinit && compinit
 
-function gitReset () {
-    git fetch origin
-    git reset --hard origin/master
-    # git clean
-    git clean -n -f > /dev/null
-    if [[ $? -eq 0 ]] ; then 
-    echo ''
-    echo "You have files that will be removed from git clean."
-    read -p ", do you want to see them?" -n 1 -r
-    echo ''
-        if [[ $REPLY =~ ^[Yy]$ ]] ; then
-        git clean -n -f
-        echo .
-        read -p "Are you sure you would like to remove these files?"
-            if [[ $? -eq 0 ]]
-            then
-                echo "running git clean now..."
-                git clean -f
-                echo .
-                echo "git clean is complete."
-            else
-                echo "you chose not to run git clean..."
-            fi
-        else
-        git clean -f
-        fi
-    else
-        echo "running git clean -n -f..."
-        echo "there is nothing to clean... exiting..."
-    fi
-}
-#---- End of Functions ----
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-
-# Example aliases
-alias zshconfig="code ~/.zshrc"
-alias ohmyzsh="code ~/.oh-my-zsh"
-alias js='~/bin/show-struct.py'
-#acs-engine
-alias acse="/usr/local/bin/acs-engine"
-
-export PATH=$PATH:~/bin
+#---- Export ----
 export GOPATH=~/go 
 export PATH=$GOPATH/bin:$PATH
-export GOROOT=/usr/local/opt/go/libexec
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:/usr/local/bin/node
 export PATH="/usr/local/opt/node@8/bin:$PATH"
@@ -210,16 +137,10 @@ export PATH="/usr/local/sbin:$PATH"
 #---- End Export ----
 
 #---- Source ----
-source $ZSH/oh-my-zsh.sh
-source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # font source
-source ~/.fonts/*.sh
-
+#source ~/.fonts/*.sh
 # az cli
-autoload bashcompinit && bashcompinit
+#source '/etc/bash_completion.d/azds'
 
-# vsts source
-source '~/lib/vsts-cli/vsts.completion'
 #---- End Source ----
 #---- END CUSTOM ----
