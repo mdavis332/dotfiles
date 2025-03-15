@@ -1,0 +1,77 @@
+
+#---- Functions ----
+function toggleClock () {
+    ~/.dotfiles/bin/toggleClock.sh
+}
+
+function hvec () {
+  for f; do
+    ffmpeg -i "$f" -map 0:0 -map 0:1 -map 0:2 -c:v copy -c:a:0 copy -c:a:1 copy "${f%.*}.mp4" -y
+
+    avconvert --preset PresetHEVCHighestQuality --source "${f%.*}.mp4" --replace --output "${f%.*}.mov" > /dev/null 2>&1 && echo '' && \
+    echo "MKV to MP4 converted successfully. You may open your file here: ${f%.*}.mp4" && \
+    echo "HEVC converted succesfully. You may open your file here: ${f%.*}.mov" 
+  done
+}
+
+function includeEveryone () {
+    git branch -m master main
+    git push -u origin main
+}
+
+function toggleMenu () {
+    ~/.dotfiles/bin/toggleMenuBigSur.sh
+}
+
+function urlencode() {
+  python -c 'import urllib, sys; print urllib.quote(sys.argv[1], sys.argv[2])' \
+    "$1" "$urlencode_safe"
+}
+
+function gitReset () {
+    git fetch origin
+    git reset --hard origin/master
+    # git clean
+    git clean -n -f > /dev/null
+    if [[ $? -eq 0 ]] ; then 
+    echo ''
+    echo "You have files that will be removed from git clean."
+    read -p ", do you want to see them?" -n 1 -r
+    echo ''
+        if [[ $REPLY =~ ^[Yy]$ ]] ; then
+        git clean -n -f
+        echo .
+        read -p "Are you sure you would like to remove these files?"
+            if [[ $? -eq 0 ]]
+            then
+                echo "running git clean now..."
+                git clean -f
+                echo .
+                echo "git clean is complete."
+            else
+                echo "you chose not to run git clean..."
+            fi
+        else
+        git clean -f
+        fi
+    else
+        echo "running git clean -n -f..."
+        echo "there is nothing to clean... exiting..."
+    fi
+}
+
+function unloadGlobalProtect {
+  launchctl unload -w /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist
+
+  launchctl unload -w /Library/LaunchAgents/com.paloaltonetworks.gp.pangps.plist
+}
+
+function loadGlobalProtect {
+  launchctl load -w /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist
+
+  launchctl load -w /Library/LaunchAgents/com.paloaltonetworks.gp.pangps.plist
+}
+# function blastoff(){
+#     echo "🚀"
+# }
+#---- End of Functions ----
