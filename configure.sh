@@ -9,7 +9,7 @@ brewInstall () {
     # Install the correct homebrew for each OS type
         if test "$(uname)" = "Darwin"
         then
-            ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> $HOME/.zprofile
             eval "$(/opt/homebrew/bin/brew shellenv)"
             success 'brew installed'
